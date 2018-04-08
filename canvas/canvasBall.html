@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ball</title>
+    <style>
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+    </style>
+</head>
+<body>
+    <canvas id='canvas' width='600' height='300' style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid#000000;">对不起，你的电脑不支持canvas，快换电脑吧</canvas>
+
+    <script>
+    var canvas =document.querySelector('#canvas');
+    var ctx = canvas.getContext('2d');
+
+    var ball = {
+        x: 100,
+        y: 100,
+        radius: 25,
+        v: 2,
+        alpha: 2,
+        color: 'blue',
+        draw: function() {
+            ctx.beginPath();
+            ctx.arc( this.x, this.y, this.radius, 0, Math.PI *2, true);
+            ctx.closePath();
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+    };
+
+    function draw() {
+        // ctx.clearRect( 0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ball.draw();
+        ball.x += vx;
+        ball.y += vy;
+        if((ball.y + vy) > canvas.height || (ball.y + vy) < 0 ) {
+            vy = -vy;
+        }
+        if ((ball.x + vx) > canvas.width || (ball.x + vx) < 0) {
+            vx = -vx;
+        }
+        raf = window.requestAnimationFrame(draw);
+    }
+
+    canvas.addEventListener('mouseover', function(e) {
+        raf = window.requestAnimationFrame(draw);
+    });
+
+    canvas.addEventListener('mouseout', function(e) {
+        window.cancelAnimationFrame(raf);
+    })
+
+    canvas.addEventListener('click', function(e) {
+        var x = e.clientX - this.getBoundingClientRect().left + this.scrollLeft;
+        var y = e.clientY - this.getBoundingClientRect().top + this.scrollTop;
+        if ( Math.pow( x - ball.x, 2) + Math.pow( y - ball.y, 2) <= Math.pow(ball.radius, 2)) {
+            ball.alpha = Math.random() * 2 * Math.PI;
+            vx = ball.v * Math.cos(ball.alpha);
+            vy = ball.v * Math.sin(ball.alpha);
+        }
+    })
+
+    vx = ball.v * Math.cos(ball.alpha);
+    vy = ball.v * Math.sin(ball.alpha);
+
+    ball.draw();
+    </script>
+    
+</body>
+</html>

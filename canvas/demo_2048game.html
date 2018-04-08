@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo</title>
+    <style>
+        body {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: "Microsift YaHei" ! important;
+        }
+        table {
+            margin: 0px auto;
+            margin-top: 100px;
+            border-radius: 10px;
+        }
+        td {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+        }
+        span {
+            color: #f8563d;
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body bgcolor="#f8fefe" onkeydown="test()">
+
+    <table id='tab' cellspacing='8' bgcolor='#bfc0bb'></table>
+    <div style='font-size: 12px; margin-top: 20px;'>(温馨提示：按上下左右进行操作！)</div>
+    <div style='font-size: 16px;'>总积分：<span id='show'></span>分</div>
+
+    <script>
+        window.onload = init();
+        var result = false,
+            ys = true;
+
+        function GetRandom( Min, Max ) {
+            return Min + Math.round( ( Max - Min ) * Math.random() );
+        }
+
+        function RnadomNum() {
+            var num = GetRandom( 1, 16 );
+            if ( document.getElementById( num ).innerHTML === '' ) {
+                document.getElementById( num ).innerHTML = GetRandom( 1, 2 ) * 2;
+            } else {
+                RnadomNum();
+            }
+        }
+
+        //初始化数据
+        function init() {
+            var tab = document.getElementById('tab'),
+                text = '',
+                id = 1;
+            
+            //创建4 * 4 格子 tr行，td列
+            for ( var i = 1; i < 5; i++ ) {
+                text += '<tr>';
+                for ( var j = i; j <= i + 12; j += 4 ) {
+                    text += '<td id=' + id + '></td>';
+                    id++;
+                }
+                text += '</tr>';
+            }
+
+            tab.innerHTML = text;
+
+            //初始化 赋值
+            for ( var i = 0; i < 2; i++ ) {
+                RnadomNum();
+            }
+            Result();
+        }
+
+        //up
+        function Top() {
+            for ( var i = 1; i < 5; i++ ) {
+                ys = true;
+                for ( var j = i; j <= i + 12; j += 4 ) {
+                    for ( var x = j; x > 4; x -= 4) {
+                        console.log(i, j, x, x-4);
+                        var test1 = document.getElementById( x- 4 );
+                        var test2 = document.getElementById( x );
+                        Change( test1, test2 );
+                    }
+                }
+            }
+        }
+        //右
+        function Right() {
+            for ( var i = 1; i <= 13; i += 4 ) {
+                ys = true;
+                for ( var j = i + 4; j >= i; j -= 1 ) {
+                    for ( var x = j; x < i + 3; x += 1) {
+                        var test1 = document.getElementById( x + 1 );
+                        var test2 = document.getElementById( x );
+                        Change( test1, test2 );
+                    }
+                }
+            }
+        }
+        //down
+        function But() {
+            for ( var i = 1; i < 5; i++ ) {
+                ys = true;
+                for ( var j = i + 12; j >= i; j -= 4 ) {
+                    for ( var x = j; x < 13; x += 4) {
+                        var test1 = document.getElementById( x + 4 );
+                        var test2 = document.getElementById( x );
+                        Change( test1, test2 );
+                    }
+                }
+            }
+        }
+        //left
+        function Left() {
+            for ( var i = 1; i <= 13; i += 4 ) {
+                ys = true;
+                for ( var j = i; j <= i + 3; j += 1 ) {
+                    for ( var x = j; x > i; x -= 1) {
+                        var test1 = document.getElementById( x - 1 );
+                        var test2 = document.getElementById( x );
+                        Change( test1, test2 );
+                    }
+                }
+            }
+        }
+
+        //event
+        function test() {
+            result = false;
+            if ( event.keyCode == 37 ) Left();
+            if ( event.keyCode == 38 ) Top();
+            if ( event.keyCode == 39 ) Right();
+            if ( event.keyCode == 40 ) But();
+            if ( result ) RnadomNum();
+            Result();
+
+        }
+
+        //位置改编并合并
+        function Change( test1, test2 ) {
+            if ( test1.innerHTML == '' && test2.innerHTML != '' ) {
+                result = true;
+                test1.innerHTML = test2.innerHTML;
+                test2.innerHTML = '';
+            } else if ( test1.innerHTML != '' && test1.innerHTML == test2.innerHTML && ys ) {
+                test1.innerHTML = parseInt( test1.innerHTML ) + parseInt( test2.innerHTML );
+                test2.innerHTML = '';
+                result = true;
+                ys = false;
+            }
+        }
+        //set color 设置颜色并返回分数
+        function Result() {
+            var result = 0,
+                colors = {
+                    "": "#d3d3d3",
+                    "2": "#fef4f2",
+                    "4": "#fed9a2",
+                    "8": "#fc8c5e",
+                    "16": "#f8692f",
+                    "32": "#f8563d",
+                    "64": "#ff3936",
+                    "128": "#00c3dd",
+                    "256": "#00a4be",
+                    "512": "#00abcb",
+                    "1024": "#00abcb",
+                    "2048": "#00abcb",
+                    "4096": "#005d6e"
+                };
+            
+            for ( var i = 1; i <= 16; i++ ) {
+                var text = document.getElementById( i );
+                text.style.backgroundColor = colors[text.innerHTML];
+                if ( text.innerHTML >= 8 ) {
+                    text.style.color = '#FFF';
+                } else {
+                    text.style.color = '#6e6f71';
+                }
+                if ( text.innerHTML != '') {
+                    result += parseInt( text.innerHTML ) * 10;
+                }
+            }
+            document.getElementById('show').innerHTML = result;
+        }
+    </script>
+    
+</body>
+</html>

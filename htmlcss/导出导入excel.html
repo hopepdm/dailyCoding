@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <table id="table">
+        <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>职业</th>
+            <th>地区</th>
+            <th>邮箱</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>admin</td>
+            <td>23</td>
+            <td>程序员</td>
+            <td>天津</td>
+            <td>admin@kali.com</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>guest</td>
+            <td>23</td>
+            <td>测试员</td>
+            <td>北京</td>
+            <td>guest@kali.com</td>
+        </tr>
+    </table>
+    <br/>
+    <input id="Button1" type="button" value="导出EXCEL" onclick="tableToExcel('table','测试')" />
+    <br/>
+    <label>
+        <input id="Button2" type="file" style="display:none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        /> 导入EXCEL </label>
+    <script>
+        var tableToExcel = ( function () {
+            var uri = 'data:application/vnd.ms-excel;base64,',
+                template =
+                '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><?xml version="1.0" encoding="UTF-8" standalone="yes"?><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+                base64 = function ( s ) {
+                    return window.btoa( unescape( encodeURIComponent( s ) ) )
+                },
+                format = function ( s, c ) {
+                    return s.replace( /{(\w+)}/g,
+                        function ( m, p ) {
+                            return c[ p ];
+                        } )
+                }
+            return function ( table, name ) {
+                if ( !table.nodeType ) table = document.getElementById( table )
+                var ctx = {
+                    worksheet: name || 'Worksheet',
+                    table: table.innerHTML
+                }
+                window.location.href = uri + base64( format( template, ctx ) )
+            }
+        } )()
+
+        document.getElementById( 'Button2' ).addEventListener( 'change', function ( e ) {
+            var table = document.getElementById( 'table' )
+            var file = e.target.files[ 0 ]
+            if ( file ) {
+                var fr = new FileReader()
+                fr.onload = function ( e ) {
+                    let mat = fr.result.match( /<table[\n\s\S\r]*?<\/table>/ )
+                    console.log( mat )
+                    table.outerHTML = mat[ 0 ]
+                }
+                fr.readAsText( file )
+            }
+        } )
+    </script>
+
+</body>
+
+</html>

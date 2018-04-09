@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title></title>
+    <style type="text/css">
+        #menu ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        #menu li {
+            position: relative;
+            width: 100px;
+            display: inline-block;
+        }
+
+        #menu li ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            height: auto;
+            background-color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+    <a href="javascript:void(0)" onClick="menu()">Bind The Click</a>
+    <ul id="menu">
+        <li>
+            Home
+            <ul>
+                <li>Home</li>
+                <li>Product</li>
+                <li>Address</li>
+                <li>Contract</li>
+                <li>Help</li>
+            </ul>
+        </li>
+        <li>Product
+            <ul>
+                <li>Home</li>
+                <li>Product</li>
+                <li>Address</li>
+                <li>Contract</li>
+                <li>Help</li>
+            </ul>
+        </li>
+        <li>Address
+            <ul>
+                <li>Home</li>
+                <li>Product</li>
+                <li>Address</li>
+                <li>Contract</li>
+                <li>Help</li>
+            </ul>
+        </li>
+        <li>Contract
+            <ul>
+                <li>Home</li>
+                <li>Product</li>
+                <li>Address</li>
+                <li>Contract</li>
+                <li>Help</li>
+            </ul>
+        </li>
+        <li>
+            Help
+            <ul>
+                <li class="home">Home</li>
+                <li>Product</li>
+                <li>Address</li>
+                <li>Contract</li>
+                <li>Help</li>
+            </ul>
+        </li>
+    </ul>
+    <script type="text/javascript">
+        function menu() {
+            var elem = document.getElementById( "menu" );
+
+            var ul = elem.getElementsByTagName( "ul" )
+            for ( var i = 0; i < ul.length; i++ ) {
+                ul[ i ].style.display = "none";
+            }
+
+            //bind the action
+            var li = elem.getElementsByTagName( "li" );
+            for ( var i = 0; i < li.length; i++ ) {
+                li[ i ].onmouseover = function () {
+                    var inli = this.getElementsByTagName( "ul" );
+                    for ( var j = 0; j < inli.length; j++ ) {
+                        inli[ j ].style.display = "block";
+                    }
+                };
+                li[ i ].onmouseout = function () {
+                    var inli = this.getElementsByTagName( "ul" );
+                    for ( var j = 0; j < inli.length; j++ ) {
+                        inli[ j ].style.display = "none";
+                    }
+                }
+            }
+
+
+        }
+        //window.onload = menu();
+    </script>
+</body>
+
+</html>

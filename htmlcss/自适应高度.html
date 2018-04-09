@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100px;
+            height: auto !important;
+            /* !important相当于强制优先，等价于写在最下面 */
+            height: 50px;
+            /*假定最低高度是200px*/
+            min-height: 50px;
+            border: 1px solid#000000;
+        }
+        .content {
+            display: inherit;
+            word-wrap: break-word;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <span class="content">我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试我是测试</span>
+    </div>
+    <div class="input">
+        <input type="text" name="text" id="text">
+        <input type="submit" value="确定">
+    </div>
+    <script>
+        document.querySelector('#text').addEventListener('change', onchange, false);
+        function onchange() {
+            document.querySelector('.content').innerHTML = document.querySelector('#text').value;
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>draw curve</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="canvas" width="300" height="350" style="border:1px solid#000000;"></canvas>
+    </div>
+    <div>
+        <a href="https://github.com/hujiulong/blog/issues/1">深入理解贝塞尔曲线</a>
+    </div>
+    <script>
+        var canvas = document.getElementById( 'canvas' );
+        var ctx = canvas.getContext( '2d' );
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#000';
+        var percent = 0.0;
+        function render() {
+            // ctx.clearRect(0,0,300,350)
+            ctx.beginPath();
+            percent += 1.0;
+            percent = (percent > 100) ? 0.0 : percent;
+            drawCurvePath(
+                ctx, [ 100, 100 ], [ 200, 300 ],
+                0.5,
+                percent
+            );
+            ctx.globalCompositeOperation = 'copy';
+
+            ctx.stroke();
+            // console.log(percent)
+            
+            
+            requestAnimationFrame( render );
+        }
+
+        render();
+
+        /**
+         * 绘制一条曲线路径
+         * @param  {Object} ctx canvas渲染上下文
+         * @param  {Array<number>} start 起点
+         * @param  {Array<number>} end 终点
+         * @param  {number} curveness 曲度(0-1)
+         * @param  {number} percent 百分比(0-100)
+         */
+        function drawCurvePath( ctx, start, end, curveness, percent ) {
+            // ctx.strokeStyle = '#' + Math.floor( Math.random() * ( 555 - 101 ) + 101 );
+            var cp = [
+                ( start[ 0 ] + end[ 0 ] ) / 2 - ( start[ 1 ] - end[ 1 ] ) * curveness,
+                ( start[ 1 ] + end[ 1 ] ) / 2 - ( end[ 0 ] - start[ 0 ] ) * curveness
+            ];
+
+            ctx.moveTo( start[ 0 ], start[ 1 ] );
+
+            for ( var t = 0; t <= percent / 100; t += 0.01 ) {
+
+                var x = quadraticBezier( start[ 0 ], cp[ 0 ], end[ 0 ], t );
+                var y = quadraticBezier( start[ 1 ], cp[ 1 ], end[ 1 ], t );
+
+                ctx.lineTo( x, y );
+            }
+
+
+        }
+
+        function quadraticBezier( p0, p1, p2, t ) {
+            var k = 1 - t;
+            return k * k * p0 + 2 * ( 1 - t ) * t * p1 + t * t * p2; // 这个方程就是二次贝赛尔曲线方程
+        }
+
+        /**
+         * canvas原生绘制二次贝赛尔曲线路径
+         * @param  {CanvasRenderingContext2D} ctx
+         * @param  {Array<number>} p0 起点
+         * @param  {Array<number>} p1 偏移点
+         * @param  {Array<number>} p2 终点
+         */
+        function drawCurvePath1( ctx, p0, p1, p2 ) {
+            ctx.moveTo( p0[ 0 ], p0[ 1 ] );
+            ctx.quadraticCurveTo(
+                p1[ 0 ], p1[ 1 ],
+                p2[ 0 ], p2[ 1 ]
+            );
+        }
+    </script>
+</body>
+
+</html>

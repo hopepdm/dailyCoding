@@ -1,0 +1,24 @@
+@charset "utf-8";
+a,
+img {
+    border: 0;
+    text-decoration: none;
+}
+
+#container {
+    display: none;
+    position: relative;
+    margin: 100px auto;
+    width: 800px;
+}
+
+.section {
+    /* border-bottom: 5px solid #ccc; */
+    display: none;
+    padding: 20px;
+}
+
+.section p {
+    padding: 20px;
+    text-align: center;
+}

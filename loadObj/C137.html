@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>瓷器</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="./public/css/style.css">
+    <link rel="stylesheet" href="./public/css/common.css">
+    <script type="text/javascript" src="./public/js/jquery-3.1.1.js">       </script>
+    <script type="text/javascript" src="./public/js/WebGLDetector.js"></script>
+  </head>
+  <body>
+    <!--webgl检测-->
+    <div id="container">
+      <div class="section" id="PR_ERR">
+        <P>对不起，您的电脑显卡不支持WebGl，请更换电脑进行浏览</P>
+      </div>
+      <div class="section" id="IE_NO_WIN7">
+        <P>您的操作系统版本过低，为了便于您的浏览，推荐您使用<a href="http://se.360.cn">360浏览器或升级您的操作系统</a></P>
+      </div>
+      <div class="section" id="IE_WIN7">
+        <P>您当前的浏览器无法浏览，如果您正在使用360浏览器，请在地址栏右侧按下图所示切换极速模式</P>
+        <p><img src="public/img/360.png"></p>
+        <p>如果您正在使用IE浏览器，您可以前往<a href="https://support.microsoft.com/zh-cn/help/18520/download-internet-explorer-11-offline-installer">微软帮助</a>下载安装最新版的IE11浏览器，或者您也可以安装<a href="https://www.google.cn/chrome/browser/desktop/index.html">谷歌浏览器</a>或者<a href="http://www.firefox.com.cn/">火狐浏览器</a></p>
+      </div>
+      <div class="section" id="NO_IE_WIN7">
+        <p>如果您使用非360浏览器，您可以前往当前浏览器官网更新至最新版本或直接下载安装<a href="https://www.google.cn/chrome/browser/desktop/index.html">谷歌浏览器</a>或者<a href="http://www.firefox.com.cn/">火狐浏览器  </a></p>
+      </div>
+    </div>
+    <div class="tool"><span class="switch close"></span>
+      <ul>
+        <li name="reset">重置</li>
+        <li name="forward">前视</li>
+        <li name="back">后视</li>
+        <li name="left">左视</li>
+        <li name="right">右视</li>
+        <li name="up">仰视</li>
+        <li name="down">俯视</li>
+      </ul>
+    </div>
+    <div class=" autoplay  stop" id="autoplay"></div>
+    <div class="loading">
+      <div class="logo"><img src="./public/images/logo.png" alt="" srcset=""></div>
+      <div class="loadbox"><i class="num" id="num"></i>
+        <div class="loadbar"><span id="left"></span></div>
+      </div>
+    </div>
+    <div class="u3dlink" id="u3dlink"><a href="" target="_blank"></a></div>
+    <div id="ThreeJS"></div>
+    <script type="text/javascript" src="./public/js/three.js"></script>
+    <script type="text/javascript" src="./public/js/main.js"></script>
+    <script type="text/javascript" src="./public/js/loaders/BinaryLoader.js"></script>
+    <script type="text/javascript" src="./public/js/loaders/MTLLoader.js"></script>
+    <script type="text/javascript" src="./public/js/loaders/OBJLoader.js"></script>
+    <script type="text/javascript" src="./public/js/OrbitControls.js"></script>
+    <script type="text/javascript" src="./public/js/Tween.js"></script>
+    <script>
+      //检测是否支持webgl
+      var result = WebGLDetector.detecte();
+      if ( result.webgl ) {
+          var parObj = {
+              objurl: "C137/C137.obj",
+              fileName: "C137",
+              near: 0.001,
+              far: 10000,
+              minfov: 0.4,
+              maxfov: 2,
+              moveSpeed: 0.5,
+              rotateSpeed: 0.5,
+              zoomSpeed: 0.5,
+              modelPosition: new THREE.Vector3(0, 0, 0),
+              modelRotation: new THREE.Vector3(0, 0, 0),
+              lightSet: [{
+                  pos: 1
+              }, {
+                  pos: 3
+              }, {
+                  pos: 6
+              }],
+              ambient: true
+          };    
+          initScene(parObj);
+      
+      } else {
+          $('#container').show();
+          if ( result.message ) {
+              if ( result.message.pc ) {
+                  $( '#PC_ERR' ).show();
+              }
+              if ( result.message.browser.platform == 'XP_OR_VISTA' ) {
+                  $( '#IE_NO_WIN7' ).show();
+              }
+              if( result.message.browser.platform === 'NOT_XP_OR_VISTA' ) {
+                  if ( result.message.browser.version.indexOf( 'IE' ) >= 0 ) {
+                      $( '#IE_WIN7' ).show();
+                  } else {
+                      $( '#NO_IE_WIN7' ).show();
+                  }
+              }
+          }
+      }
+    </script>
+  </body>
+</html>

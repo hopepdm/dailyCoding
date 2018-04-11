@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body{
+            margin: 0 auto;
+        }
+        #container{
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        #list{
+            width: 4200px;
+            height: 400px;
+            position: absolute;
+        }
+        #list img{
+            float: left;
+        }
+        #buttons{
+            position: absolute;
+            width: 100px;
+            height: 10px;
+            bottom: 20px;
+            left: 250px;
+            z-index: 1;
+        }
+        #buttons span{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #333;
+            border:1px solid #fff;
+            float: left;
+            margin-right: 5px;
+        }
+        #buttons .on{
+            background-color: orange;
+        }
+        .arrow{
+            position: absolute;
+            z-index: 2;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0,0,0,.3);
+            font-size: 36px;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            top:180px;
+            display: none;
+        }
+        .arrow:hover{
+            background-color: rgba(0,0,0,.7);
+        }
+        #container:hover .arrow{
+            display: block;
+        }
+        #prev{
+            left:20px;
+        }
+        #next{
+            right:20px;
+        }
+    </style>
+	<script>
+		var pin=200;
+		function nex(){
+			function nee(){
+			var list1=document.getElementById("list");
+			list1.style.left=parseInt(list1.style.left)-600/pin+"px";
+			if(parseInt(list1.style.left)<=-3000){
+				list1.style.left="0px";
+			}}	
+			var m=1;
+			var s=setInterval(
+				function(){
+					if(m<=pin){
+						nee();
+						m++
+					}else{
+						sts();
+					}
+				}
+			,1);			
+			var sts=function(){
+				clearInterval(s);
+			}	
+		}
+		function pre(){
+			function pree(){
+				var list1=document.getElementById("list");
+				if(parseInt(list1.style.left)>=0){
+					list1.style.left="-3000px";
+				}
+				list1.style.left=parseInt(list1.style.left)+600/pin+"px";}
+				var m=1;
+				var b=setInterval(
+					function(){
+						if(m<=pin){
+							pree();
+							m++
+						}else{stb()}
+					}
+				,1);
+				function stb(){
+					clearInterval(stb);
+				}
+		}
+	window.onload=function(){
+		function auto(){
+				a=setInterval(nex,3000);	
+			}
+			auto();
+		container.onmouseover=function(){
+			clearInterval(a);
+		}
+		container.onmouseout=function(){
+			auto();
+		}
+		}
+		
+	</script>
+
+</head>
+<body>
+    <div id="container">
+        <div id="list" style="left:0px;">  
+            <img src="img/1.jpg" />
+            <img src="img/2.jpg" />
+            <img src="img/3.jpg" />
+            <img src="img/4.jpg" />
+            <img src="img/5.jpg" />
+            <img src="img/1.jpg" />
+        </div>
+        <div id="buttons">
+            <span index="0" ></span>
+            <span index="1"></span>
+            <span index="2"></span>
+            <span index="3"></span>
+            <span index="4"></span>
+        </div>
+        <a id="prev" class="arrow" href="javascript:pre();">&lt;</a>
+        <a id="next" class="arrow" href="javascript:nex();">&gt;</a>
+    </div>
+</body>
+</html>

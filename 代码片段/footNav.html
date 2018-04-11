@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .nav {
+            margin: 0;
+            padding: 50px;
+        }
+
+        .nav li {
+            float: left;
+            list-style: none;
+            padding: 0 15px;
+            perspective: 100px;
+            -webkit-perspective: 100px;
+        }
+
+        .nav a {
+            float: left;
+            position: relative;
+            font: 14px/30px "宋体";
+            text-decoration: none;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transition: .5s;
+            -webkit-transition: .5s;
+            transform-origin: center center -15px;
+            -webkit-transform-origin: center center -15px;
+        }
+
+        .nav span {
+            float: left;
+            width: 60px;
+            text-align: center;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .nav span:nth-of-type(2) {
+            position: absolute;
+            left: 0;
+            top: -30px;
+            transform-origin: bottom;
+            -webkit-transform-origin: bottom;
+            -webkit-transform: rotate(90deg);
+            transform: rotateX(90deg);
+        }
+
+        .nav a:hover {
+            transform: rotateX(-90deg);
+            -webkit-transform: rotateX(-90deg);
+        }
+    </style>
+</head>
+<body>
+<ul class="nav">
+    <li><a href=""><span>选项一</span><span>选项1</span></a></li>
+    <li><a href=""><span>选项二</span><span>选项2</span></a></li>
+    <li><a href=""><span>选项三</span><span>选项3</span></a></li>
+</ul>
+</body>
+</html>

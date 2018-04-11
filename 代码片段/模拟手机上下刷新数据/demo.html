@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pull to refresh</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" href="pullToRefresh.css"/>
+<script src="iscroll.js"></script>
+<script src="pullToRefresh.js"></script>
+<style type="text/css" media="all">
+body, html {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+</style>
+</head>
+<body>
+<!--must content ul-->
+<div id="wrapper">
+  <ul>
+    <li>row 11</li>
+    <li>row 10</li>
+    <li>row 9</li>
+    <li>row 8</li>
+    <li>row 7</li>
+    <li>row 6</li>
+    <li>row 5</li>
+    <li>row 4</li>
+    <li>row 3</li>
+    <li>row 2</li>
+    <li>row 1</li>
+  </ul>
+</div>
+</div>
+<script>
+refresher.init({
+	id:"wrapper",
+	pullDownAction:Refresh,
+	pullUpAction:Load
+	});
+		
+	var generatedCount = 0;
+function Refresh() {
+	setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+		var el, li, i;
+		el =document.querySelector("#wrapper ul");
+		el.innerHTML='';
+		for (i=0; i<11; i++) {
+			li = document.createElement('li');
+			li.appendChild(document.createTextNode('async row ' + (++generatedCount)));
+		el.insertBefore(li, el.childNodes[0]);
+		}	
+		myScroll.refresh();/****remember to refresh when you action was completed！！！****/
+	}, 1000);
+}
+
+function Load() {
+	setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
+		var el, li, i;
+		el =document.querySelector("#wrapper ul");
+		for (i=0; i<2; i++) {
+			li = document.createElement('li');
+			li.appendChild(document.createTextNode('async row ' + (++generatedCount)));
+			el.appendChild(li, el.childNodes[0]);
+		}
+		myScroll.refresh();/****remember to refresh when you action was completed！！！****/
+	}, 1000);
+}
+</script>
+</body>
+</html>

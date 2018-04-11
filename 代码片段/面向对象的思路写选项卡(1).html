@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script typet="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+		<style type="text/css">
+			li {
+				display: none;
+			}
+			
+			input.active {
+				color: red;
+			}
+			
+			div {
+				border: 1px solid #14D96C;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main">
+			<input type="button" value="1" class="active" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+
+			<ul>
+				<li style="display: block">第一个选项卡1</li>
+				<li>第一个选项卡2</li>
+				<li>第一个选项卡3</li>
+			</ul>
+		</div>
+
+		<div id="main2">
+			<input type="button" value="1" class="active"/>
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+
+			<ul>
+				<li style="display: block" >第一个选项卡1</li>
+				<li>第二个选项卡2</li>
+				<li>第三个选项卡3</li>
+			</ul>
+		</div>
+
+		<div id="main3">
+			<input type="button" value="1" class="active"/>
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+
+			<ul>
+				<li style="display: block">第三个选项卡1</li>
+				<li>第三个选项卡2</li>
+				<li>第三个选项卡3</li>
+			</ul>
+		</div>
+	</body>
+
+</html>
+<script type="text/javascript">
+	function Tab(id) {
+		this.btn = document.getElementById(id).getElementsByTagName('input');
+		this.av = document.getElementById(id).getElementsByTagName('li');
+	}
+	Tab.prototype.click = function() {
+		var This = this;
+		for(var i = 0; i < this.btn.length; i++) {
+			this.btn[i].index = i;
+			this.btn[i].onclick = function() {
+				for(var i = 0; i < This.btn.length; i++) {
+					This.btn[i].className = '';
+					This.av[i].style.display = 'none';
+				}
+				this.className = 'active';
+				This.av[this.index].style.display = 'block';
+			}
+		}
+	}
+
+	var nmain = new Tab('main');
+		nmain.click();
+	var nmain2 = new Tab('main2');
+		nmain2.click();
+	var nmain3 = new Tab('main3');
+		nmain3.click();
+
+		
+	
+		
+		
+
+</script>

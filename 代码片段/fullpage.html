@@ -1,0 +1,80 @@
+<doctype html>
+<html>
+<head>
+<title>fullpage</title>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery-fullPage/2.7.4/jquery.fullPage.min.js"></script>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/jquery-fullPage/2.7.4/jquery.fullPage.css">
+<script>
+	$(function(){
+		$("#fullpage").fullpage({
+			css3:true,
+			navigation:true,
+			anchors: ['page1','page2','page3','page4'],
+			menu:"#mynav"			
+		})
+	})
+</script>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		background-color:#EAEAEA;
+	}
+	a,a:link,a:visited,a:active{
+		text-decoration:none;
+		color:#AAAAAA
+	}
+	#mynav{
+		position:fixed;
+		top:20px;
+		right:100px;
+		margin:0 auto;				
+		background-color:#fff;	
+		list-style-type:none;
+		z-index:999;
+	}
+	#mynav li{
+		display:block;
+		float:left;
+		width:40px;
+		height:40px;
+		line-height:40px;
+		text-align:center;		
+	}
+	#mynav .active{
+		background-color:#97FFFF;
+	}
+	#page1{
+		background-image:url(http://bizhi.33lc.com/uploadfile/2015/0401/20150401012413939.jpg)
+	}
+	#page2{
+		background-image:url(http://attach.bbs.miui.com/forum/201408/05/095527f55ywaayiqeidgs1.jpg)
+	}
+	#page3{
+		background-image:url(http://pic1.win4000.com/wallpaper/5/540fc1a3997e1.jpg)
+	}
+</style>
+</head>
+<body>
+	<ul id="mynav">
+		<li data-menuanchor="page1"><a href="#page1">1</a></li>
+		<li data-menuanchor="page2"><a href="#page2">2</a></li>
+		<li data-menuanchor="page3"><a href="#page3">3</a></li>
+		<li data-menuanchor="page4"><a href="#page4">4</a></li>
+	</ul>
+	<div id="fullpage">
+		<div class="section" id="page1">first page</div>
+		<div class="section" id="page2">second page</div>
+		<div class="section" id="page3">third page</div>
+		<div class="section">
+			<div class="slide" id="1">1</div>
+			<div class="slide" id="2">2</div>
+			<div class="slide" id="3">3</div>
+			<div class="slide" id="4">4</div>
+		</div>
+	</div>
+</body>
+</html>

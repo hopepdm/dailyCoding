@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+<script src="//cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+<style type="text/css">
+*{
+	margin: 0;
+	padding: 0;
+}
+	div{
+		background: red;
+		height: 800px;
+		position: relative;
+	}
+	span{
+	
+		position: absolute;		
+		background: #FFFF00;
+		width: 300px;
+		right: -300px;
+		height: 150px;
+	
+		
+	}
+	em{
+		position: absolute;
+		width: 20px;
+		height: 100px;
+		background: #CAE1FF;
+		left: -20px;
+	}
+</style>
+	</head>
+	<body>
+	<div>
+		全屏的
+		
+			
+		<span>内荣
+			<em>点我显示</em>
+		</span>
+	</div>		
+		
+	</body>
+</html>
+<script type="text/javascript">
+		$("em").toggle(function(){
+			$(this).html("点我隐藏");
+			$("span").animate({right:0},"slow")
+		},function(){
+			$(this).html("点我显示")
+			$("span").animate({right:-300},"slow")
+		})
+</script>

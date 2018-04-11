@@ -1,0 +1,45 @@
+连续淡入淡出效果（ID：3537）
+
+这是一个用JS实现的图片淡入淡出效果
+
+布局方面没太多可说的，几张图片而已
+
+重点说一下JS的东西
+本效果主要运用智能课堂的运动框架完成，这里主要用到了linear线性运动
+
+程序的原理是先快速让图片透明度降低
+linear(aImg[i], {alpha: 100}, {alpha: min}, setOpacity, null, speed);
+
+在透明度达到30的时候，再换一张图片
+this.src='images/'+(next()+1)+'.jpg';
+
+然后开始让图片透明度重新升高
+linear(this, {alpha: min}, {alpha: 100}, setOpacity, null, speed);
+
+当然，亮点在于图片分阶段的变化，主要也是通过定时器完成的
+var timer=setInterval(function (){
+	linear(aImg[i], {alpha: 100}, {alpha: min}, setOpacity, function (){
+		this.src='images/'+(next()+1)+'.jpg';
+		linear(this, {alpha: min}, {alpha: 100}, setOpacity, null, speed);
+	}, speed);
+	if(--i==-1)clearInterval(timer);
+}, 50);
+
+===============================================================================
+兼容的浏览器：
+IE:			9+
+FireFox		√
+safari		√
+chrome		√
+opera		√
+
+
+===============================================================================
+
+实现原理：
+随机生成一些div，让他们跑。然后利用了“碰撞检测”，让程序知道用户是否碰到了某个物体。
+
+===============================================================================
+
+大家有兴趣可以去我们的官网（智能社：www.zhinengshe.com）看看，那里还有很多demo可以看，
+也欢迎大家加入我们的QQ群，一起交流讨论

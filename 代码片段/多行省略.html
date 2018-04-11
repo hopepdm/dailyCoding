@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>多行省略</title>
+</head>
+
+<body>
+
+<p name="p">我来做省略的例子</p>
+<p id="p">我来做省略的例子</p>
+<p>我来做省略的例子</p>
+<p>我来做省略的例子</p>
+
+
+<script>
+
+window.onload=function(){
+	
+		var cname=document.getElementsByTagName("p");
+		
+		for(var i=0;i<cname.length;i++){
+			
+			var nowLength=cname[i].innerHTML.length;
+			
+			if(nowLength>3){
+				
+				alert(cname[i].innerHTML)
+				
+				cname[i].innerHTML=cname[i].innerHTML.substring(0,3)+"..."
+				
+				}
+			
+			}
+
+	}
+
+</script>
+
+</body>
+</html>

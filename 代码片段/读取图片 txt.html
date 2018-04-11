@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="//cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>
+		<style type="text/css">
+			li {
+				width: 100px;
+				height: 100px;
+				float: left;
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+
+	<body>
+	<input type="file" name="" id="files-list" value="" />
+	<div id='output'>
+		
+	</div>
+	<div id="progress">
+		
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+var filesList=document.getElementById("files-list");
+	filesList.onchange=function(ev){
+		var info="",
+			output=document.getElementById("output"),
+			progress=document.getElementById("progress"),
+			files=ev.srcElement.files,
+			type='default',
+			reader=new FileReader();
+			if(/image/.test(files[0].type)){				
+				reader.readAsDataURL(files[0]);				
+				console.log(files[0]);
+				type='image'
+			}else{
+		
+//				reader.readAsText(files[0]);
+//				type='text';
+//			
+			console.log('请输入图片类型')
+			}
+			
+			reader.onerror=function(){
+				output.innerHTML="失败"+reader.error.code;
+			};
+			reader.onprogress=function(ev){
+			
+				if(ev.lengthComputable){
+					progress.innerHTML=ev.loaded+'/'+ev.total;
+					console.log(progress.innerHTML)
+				}
+				
+			};
+			reader.onload=function(){			
+				var html='';
+				console.log(reader)
+				switch(type){
+					case 'image' :
+					html="<img src=\""+reader.result+"\">";
+					break;
+					case 'text':
+					html=reader.result;
+					break
+					
+				}
+				output.innerHTML=html;
+			}		
+	}
+
+</script>

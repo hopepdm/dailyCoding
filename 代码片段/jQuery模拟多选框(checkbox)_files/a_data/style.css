@@ -1,0 +1,11 @@
+body,div,input{margin:0;padding:0;}
+body{margin-top:100px;font-size:12px;}
+i,em{font-style:normal;}
+
+.box{text-align:center;}
+.box .checkbox_item{position:relative;display:inline-block;margin-right:10px;height:16px;}
+.checkbox_item input{position:absolute;top:-9999px;left:-9999px;}
+.checkbox_item .check_label{display:inline-block;cursor:default;}
+.checkbox_icon{display:block;float:left;margin-right:5px;width:16px;height:16px;background:url(../images/checkbox_icon.png) 0 0;}
+.check_label.on .checkbox_icon{background-position:-16px 0;}
+.checkbox_text{float:left;height:16px;line-height:16px;}

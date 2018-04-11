@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="table"></div>
+
+</body>
+
+<script src="bower_components\jquery/dist/jquery.js"></script>
+<script src="jstable.js" ></script>
+<script>
+	$(function(){
+		 $("#table").jsTable({
+		 	name:"Table",
+		 	width:100
+		 },function(msg){
+		 	//alert(msg);
+		 });
+	})
+
+</script>
+
+</html>

@@ -1,0 +1,242 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td{ margin:0; padding:0; } 
+body, button, input, select, textarea{ font:20px/1.5 tahoma, arial, \5b8b\4f53; } 
+h1, h2, h3, h4, h5, h6{ font-size:100%; } 
+address, cite, dfn, em, var{ font-style:normal; }
+ul, ol{ list-style:none; } 
+/*top*/
+.top{background:#30394D; overflow:hidden; }
+.wraper{ width:1170px; margin:20px auto;}
+.banner{ width:100%; margin:2em auto 1em; height:510px; position:relative; background:url(img/0.png) no-repeat 0 0;}
+.ban_nav{ margin-bottom:2em;}
+.ban_nav ul{ float:right;}
+.ban_nav li{ width:15px; height:15px; border-radius:50%; background:#fff; float:left; margin:0 1em; cursor:pointer;}
+.ban_nav li.active{ background:#FF3D4E;}
+</style>
+<script src="Cyric.js"></script>
+<script>
+DomReady(function(){
+(function(){
+		var oTop = getById('top');
+		var oBan = getByClass(oTop,'banner')[0];
+		var oBan_n = getByClass(oTop,'ban_nav')[0];
+		var aLi = oBan_n.children[0].children;
+		
+		//准备分块 
+		var R = 10;
+		var C = 5;
+		var S = R*C;
+		var aPos = [];
+		var iNow = 0;
+		var bClick = false;
+		//创建span
+		for(var i=0;i<S;i++){
+			var oSpan = document.createElement('span');
+			oSpan.style.width = oBan.offsetWidth/R +'px';
+			oSpan.style.height = oBan.offsetHeight/C +'px';
+			oSpan.style.position = 'absolute';
+			oSpan.style.background = 'url(img/'+iNow+'.png)';
+			oBan.appendChild(oSpan);
+			oSpan.style.left = oSpan.offsetWidth*(i%R)+'px';
+			oSpan.style.top = oSpan.offsetHeight*parseInt(i/R)+'px';
+			oSpan.style.backgroundPosition = -oSpan.offsetLeft+'px '+-oSpan.offsetTop+'px';
+			aPos[i] = {
+				left:oSpan.offsetLeft,
+				top:oSpan.offsetTop,
+				width:oSpan.offsetWidth,
+				height:oSpan.offsetHeight,
+				opacity:1
+			};
+		}
+		
+		var aSpan = oBan.children;
+		
+		
+		var timer = setInterval(next,5000);
+		
+		oTop.children[0].onmouseover = function(ev){
+			var oEvent = ev||event;
+			var src = oEvent.fromElement || oEvent.relatedTarget;
+			if(src && this.contains(src)) return;
+			clearInterval(timer);
+		};
+		
+		oTop.children[0].onmouseout = function(ev){
+			var oEvent = ev||event;
+			var src = oEvent.toElement || oEvent.relatedTarget;
+			if(src && this.contains(src)) return;
+			timer = setInterval(next,5000);
+		};
+		
+		for(var i=0;i<aLi.length;i++){
+			(function(index){
+				aLi[i].onclick = function(){
+					if(iNow != index){
+						if(!bClick){
+							iNow = index;
+							tab();
+						}
+					}
+				};
+			})(i);
+		}
+		//自动播放
+		function next(){
+			if(!bClick){
+				iNow++;
+				(iNow == 3) && (iNow = 0); 
+				tab();
+			}
+		}
+		
+		
+		//准备运动
+		function tab(){
+			if(bClick) return;
+			bClick = true;
+			
+			for(var i=0;i<aLi.length;i++){
+				aLi[i].className = '';	
+			}
+			aLi[iNow].className = 'active';
+			oBan.style.backgroundImage = aSpan[0].style.backgroundImage;
+			//showImg(2);
+			showImg(Math.floor(Math.random()*5));
+				
+		}
+		//运动开始
+		function showImg(n){
+			switch(n){
+				case 0:
+					//从左到右
+					for(var i=0;i<aSpan.length;i++){
+						aSpan[i].style.width = 0;
+						aSpan[i].style.height= 0;
+						aSpan[i].style.opacity = 0;
+						aSpan[i].style.filter= 'alpha(opacity = 0)';
+						aSpan[i].style.backgroundImage = 'url(img/'+iNow+'.png)';
+						(function(index){
+							setTimeout(function(){
+								move(aSpan[index],aPos[index],{easing:Tween.Expo.easeInOut,complete:function(){
+									if(index == aPos.length - 1){
+										bClick = false;
+									}
+								}})	
+							},i%R*100+100)
+						})(i);	
+					}
+				break;
+				case 1:
+					//之字路线
+					for(var i=0;i<aSpan.length;i++){
+						var j = 0;
+						if(parseInt((i/R))%2 == 0){
+							//偶数行
+							j = i;
+						}else{
+							//奇数行
+							j=(Math.floor(i/R)*2)*R + R - 1 - i;
+							
+							
+						}
+						aSpan[i].style.width = aPos[i].width;
+						aSpan[i].style.height= aPos[i].height;
+						aSpan[i].style.opacity = 0;
+						aSpan[i].style.filter= 'alpha(opacity = 0)';
+						aSpan[i].style.backgroundImage = 'url(img/'+iNow+'.png)';
+						(function(index){
+							setTimeout(function(){
+								move(aSpan[index],aPos[index],{complete:function(){
+									if(index == aPos.length - 1){
+										bClick = false;
+									}
+								}})	
+							},j*30)
+						})(i);	
+					}
+				break;
+				case 2:
+					//从大块变小
+					for(var i=0;i<aSpan.length;i++){
+						aSpan[i].style.width = aPos[i].width + 200 +'px';
+						aSpan[i].style.height= aPos[i].height + 200 +'px';
+						aSpan[i].style.left = aPos[i].left +100 +'px';
+						aSpan[i].style.top = aPos[i].top -100 +'px';
+						aSpan[i].style.opacity = 0;
+						aSpan[i].style.filter= 'alpha(opacity = 0)';
+						aSpan[i].style.backgroundImage = 'url(img/'+iNow+'.png)';
+						(function(index){
+							setTimeout(function(){
+								move(aSpan[index],aPos[index],{easing:Tween.Back.easeInOut,complete:function(){
+									if(index == aPos.length - 1){
+										bClick = false;
+									}
+								}})	
+							},i%R*100+100)
+						})(i);	
+					}
+				break;
+				case 3:
+					//从下往上
+					for(var i=0;i<aSpan.length;i++){
+						var j = aSpan.length - i;
+						aSpan[i].style.width = 0 +'px';
+						aSpan[i].style.height= 0 +'px';
+						aSpan[i].style.left = aPos[i].left + aPos[i].width +'px';
+						aSpan[i].style.top= aPos[i].top + aPos[i].height +'px';
+						aSpan[i].style.backgroundImage = 'url(img/'+iNow+'.png)';
+						(function(index){
+							setTimeout(function(){
+								move(aSpan[index],aPos[index],{easing:Tween.Expo.easeInOut,complete:function(){
+									if(index == aPos.length - 1){
+										bClick = false;
+									}
+								}})	
+							},j*20)
+						})(i);	
+					}
+				break;
+				case 4:
+					//随机
+					for(var i=0;i<aSpan.length;i++){
+						aSpan[i].style.opacity= 0;
+						aSpan[i].style.filter= 'alpha(opacity = 0)';
+						aSpan[i].style.backgroundImage = 'url(img/'+iNow%3+'.png)';
+						(function(index){
+							setTimeout(function(){
+								move(aSpan[index],aPos[index],{easing:Tween.Expo.easeInOut,complete:function(){
+									if(index == aPos.length - 1){
+										bClick = false;
+									}
+								}})	
+							},Math.random()*500)
+						})(i);	
+					}
+				break;
+			}	
+		}
+	})();
+})
+</script>
+</head>
+
+<body>
+<div class="top" id="top">
+	<div class="wraper">
+    	<div class="banner"></div>
+        <div class="ban_nav">
+       		 <ul>
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

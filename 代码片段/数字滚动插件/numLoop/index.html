@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style media="screen">
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body * {
+            box-sizing: border-box;
+        }
+
+        .qx-num-box {
+            margin: 700px 0;
+            text-align: center;
+        }
+
+        .qx-num-box .num-item {
+            display: inline-block;
+            width: 50px;
+            height: 144px;
+            position: relative;
+            margin-left: 8px;
+            background: url('lib/num_box_bg.png') no-repeat center;
+        }
+
+        .qx-num-box .num-item .num-item-main {
+            display: block;
+            position: absolute;
+            top: 33px;
+            left: 0;
+            height: 77px;
+            width: 50px;
+        }
+
+        .qx-num-box .num-item .num-item-main.qian {
+            background: url('lib/qian.png') no-repeat center;
+        }
+
+        .qx-num-box .num-item .num-item-main.num {
+            background: url('lib/num_bg.png') no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="qx-num-box" data-num="52041506">
+    </div>
+    <script src="lib/jquery-1.9.1.min.js" charset="utf-8"></script>
+    <script src="lib/numLoop.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('.qx-num-box').numLoop({
+                isAuto: false,
+                time: 1000,
+                isRight: true
+            });
+        });
+    </script>
+</body>
+
+</html>

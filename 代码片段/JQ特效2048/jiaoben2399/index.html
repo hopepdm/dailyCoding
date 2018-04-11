@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery+html5制作2048小游戏 - 站长素材</title>
+
+<style type="text/css">
+*{margin:0;padding:0;list-style-type:none;}
+</style>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+<script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+<script type="text/javascript" src="js/new2048.js"></script>
+
+</head>
+<body>
+
+<div class="div-round" id="tips">↑(W)/↓(S)/←(A)/→(D)控制方向</div>
+<div id="game-panel">
+	<div class="div-round" id="box-main">
+		<div class="div-round box-lm" id="box0"></div>
+		<div class="div-round box-lm" id="box1"></div>
+		<div class="div-round box-lm" id="box2"></div>
+		<div class="div-round box-lm" id="box3"></div>
+		<div class="div-round box-lm" id="box4"></div>
+		<div class="div-round box-lm" id="box5"></div>
+		<div class="div-round box-lm" id="box6"></div>
+		<div class="div-round box-lm" id="box7"></div>
+		<div class="div-round box-lm" id="box8"></div>
+		<div class="div-round box-lm" id="box9"></div>
+		<div class="div-round box-lm" id="boxa"></div>
+		<div class="div-round box-lm" id="boxb"></div>
+		<div class="div-round box-lm" id="boxc"></div>
+		<div class="div-round box-lm" id="boxd"></div>
+		<div class="div-round box-lm" id="boxe"></div>
+		<div class="div-round box-lm" id="boxf"></div>
+	</div>
+</div>
+	<!--  提示点击的方向 -->
+	<div id="keys">&nbsp;</div>
+	<!-- 点击按钮重新开始  -->
+	<div style="width:200px;margin: 50px auto;">
+		<input type="button" value="开始" class="btn btn-primary" onClick="init();">
+		<input type="button" value="重新开始" class="btn btn-primary" onClick="if(window.confirm('您确定重新开始吗?')){init();}">
+	</div>
+	<div id="score">
+		总分数:00
+	</div>
+	<div id="max">
+		当前最大数:
+	</div>
+	<div id="time">
+		当前用时: 0s。
+	</div>
+	<!-- 提示快结束 -->
+	<div id="danger">
+	</div>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p>适用浏览器：IE8、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.</p>
+<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <script type="text/javascript" src="http://www.maimengjun.com/assets/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("body").click(function(){
+                var ua = navigator.userAgent.toLowerCase();
+                if(ua.match(/MicroMessenger/i)=="micromessenger"){
+                }else {
+                    if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i) || (navigator.userAgent.match(/iPad/i)))) {
+                        location.href = 'https://appsto.re/cn/BTW_8.i';
+                    }else{
+                        location.href = 'http://img.playsm.com/apk/MaiMeng_weibo.apk';
+                    }
+                }
+            });
+        })
+
+
+    </script>
+    <style type="text/css">
+        body{
+            margin:0;
+            width:100%;
+            max-width:700px;
+            margin:auto;
+        }
+       .alm{
+           position: absolute;
+           width: 90%;
+           border-radius: 100px;
+           margin: auto;
+           height: 110px;
+           background: white;
+           left:5%;
+           bottom: 19%;
+           box-sizing: border-box;
+           padding: 30px 50px;
+       }
+        img{
+            width:100%;
+        }
+       @media screen and (max-width:700px) {
+           .alm{
+               bottom:19%
+           }
+       }
+
+        @media screen and (max-width:350px) {
+            .alm{
+                height:80px;
+                padding: 10px 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div style="position:relative;">
+    <img src="anlima.jpg"/>
+    <div class="alm">“#麦萌漫画#长按复制此条消息，打开麦萌漫画App即可关注我，我的安利码：ABC123</div>
+
+</div>
+
+</body>
+</html>

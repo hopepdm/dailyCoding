@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="../css/fonts/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/ui-box.css">
+		<link rel="stylesheet" href="../css/ui-base.css">
+		<link rel="stylesheet" href="../css/ui-color.css">
+		<link rel="stylesheet" href="../css/appcan.icon.css">
+		<link rel="stylesheet" href="../css/appcan.control.css">
+	</head>
+
+	<body class="um-vp " ontouchstart>
+		<div id="page_0" class="up ub ub-ver bc-bg" tabindex="0" >
+			<div class="uinn bc-head">普通循环列表</div>
+			<div id="content0" class="ub-f1 tx-l" style="overflow-y: scroll;">
+				<div class="ub ub-ver">
+					<div class="uinn">我是名称为：${name}</div>
+					<div>我是id为：${listId}</div>
+					<div class="list ub"></div>
+				</div>
+
+			</div>
+			<!--header结束-->
+			<div class="uinn bc-head">每n调就包裹样式循环列表</div>
+			<!--content开始-->
+			<div id="content1" class="ub-f1 tx-l" style="overflow-y: scroll;">
+				<div class="ub ub-ver">
+					<div class="uinn">我是名称为：${name}</div>
+					<div>我是id为：${listId}</div>
+					<div class="list ub"></div>
+				</div>
+
+			</div>
+			<div class="uinn bc-head">内嵌循环列表</div>
+			<div id="content2" class="ub-f1 tx-l" style="overflow-y: scroll;">
+				<div class="ub ub-ver">
+					<div class="uinn">我是名称为：${name}</div>
+					<div class="listI ub ">
+						<div>ooo {{name}}</div>
+					</div>
+				</div>
+			</div>
+			<div>--没有更多-</div>
+			<div class="demoList">111</div>
+			<div class="demoList">111</div>
+			<div class="demoList">111</div>
+			<div class="demoList">111</div>
+			<div class="demoList">111</div>
+			<div class="demoList">111</div>
+
+			<!--content结束-->
+
+		</div>
+		<script src="../js/appcan.js"></script>
+		<script src="../js/appcan.control.js"></script>
+	</body>
+	<script>
+		var data = {
+				sussceful: true,
+				data: [{
+					name: "我是名称一",
+					listId: 1,
+					
+					list: [{
+						name: "内嵌一列表"
+					}, {
+						name: "内嵌二列表"
+					}]
+				}, {
+					name: "二",
+					listId: 1,
+					list: [{
+						name: "我是内嵌内容11"
+					}, {
+						name: "我是内嵌内容222"
+					}]
+				}, {
+					name: "三",
+					listId: 1,
+					list: [{
+						name: "我是内嵌内容11"
+					}, {
+						name: "我是内嵌内容222"
+					}]
+				}, {
+					name: "四",
+					listId: 1,
+					list: [{
+						name: "我是内嵌内容11"
+					}, {
+						name: "我是内嵌内容222"
+					}]
+				}, {
+					name: "五",
+					listId: 1,
+					list: [{
+						name: "我是内嵌内容11"
+					}, {
+						name: "我是内嵌内容222"
+					}]
+				}]
+			}
+			//普通列表
+		menulistGUI("#content0", data.data);
+		//每一排显示n个，或每n条数据就加个边框等。包裹关系
+		menulistGUI("#content1", data.data, "", '<div class="uba umar-a ub">', 2);
+		menulistGUI("#content2", data.data);
+		//		menulistGUI(".demoList*0",data.data[4].list);
+		$(".listI").each(function(i) {
+			menulistGUI(".listI*" + i, data.data[i].list,"2");
+		});
+		/**
+		 * 显示列表
+		 * @parame{div的id要用#}id 为选择器 如果选择器为类 则格式如下：.list*0
+		 * @parame{一排显示的条数}j 几排显示
+		 * @parame{内层列表内容}tmpl 内容样式  2则为2级内嵌{{}}  3则为三级内嵌{{{}}}
+		 * @parame{外层列表内容}tmpl2 外层样式
+		 * @parame{外层列表内容}arr 数组
+		 * @parame{末尾添加的一条htm代码}htm3 补充代码
+		 * @add 是否是新增 是则add=1 不是则不加参数。
+		 * @enddiv 修改掉结尾的div样式。
+		 */
+		function menulistGUI(id, arr, tmpl, tmpl2, j, add, htm3, enddiv) {
+			var inum = 0;
+			var thisS = "";
+			//截取类
+			var className = id;
+			//获取是否有点
+			var redian = className.replace(/(\.)*.+/ig, "$1");
+			//如果选择器是类。则
+			if (redian == ".") {
+				var repe = className.replace(/\.*(.+)\*(.+)/ig, "$('.$1').eq($2)");
+				thisS = eval(repe);
+			} else {
+				thisS = $(id);
+			}
+			if (!tmpl) {
+				tmpl = thisS.html();
+			}
+			if (tmpl == "2") {
+				tmpl = thisS.html();
+				str = tmpl;
+				str = str.replace(new RegExp('{{', 'ig'), "${");
+				str = str.replace(new RegExp('}}', 'ig'), "}");
+				tmpl = str;
+				
+			}
+			if (tmpl == "3") {
+				tmpl = thisS.html();
+				str = tmpl;
+				str = str.replace(new RegExp('{{{', 'ig'), "${");
+				str = str.replace(new RegExp('}}}', 'ig'), "}");
+				templ = str;
+			}
+			//默认已div结尾。
+			if (!enddiv) {
+				enddiv = "</div>";
+			}
+			tmpl = "${cb:begin}" + tmpl + "${cb:end}"
+			var s = appcan.tempRenderList(tmpl, arr, appcan.getObjLength(arr), tmpleCb1);
+			if (htm3) {
+				s += htm3;
+			}
+			if (add == 1) {
+				thisS[0].innerHTML += s;
+				return;
+			} else {
+				thisS[0].innerHTML = s;
+			}
+
+			function tmpleCb1(a, b) {
+				switch (b[1]) {
+					case 'begin':
+						inum++;
+						if (inum % j == 1) {
+							return tmpl2
+						}
+						return '';
+					case 'titlepic':
+						if ("" == a.titlepic || null == a.titlepic) {
+							return ""
+						} else {
+							var huandengp = appHost + a.titlepic;
+							return ('<div class="rb loadimg"><img  src="' + huandengp + '"  ></div>');
+						}
+						break;
+					case 'list':
+						if (a.list) {
+							return "<div>我是内嵌" + a.list[0].name + "</div>";
+						} else {
+							return "";
+						}
+						break;
+					case 'end':
+						if (inum % j == 0) {
+							return enddiv;
+						}
+						return '';
+				}
+			}
+		}
+	</script>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html style="padding-bottom: 54px;"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+
+    <title>jQuery模拟多选框(checkbox)</title>
+    <meta name="description" content="jQuery模拟多选框(checkbox)"> 
+    <meta name="keywords" content="checkbox,Jquery模拟多选框,自定义多选框，jquery,jquery插件">
+	<link href="a_data/style.css" type="text/css" rel="stylesheet">
+
+</head>
+<body>
+
+       <div class="box">
+			<span class="checkbox_item">
+				<input checked="checked" type="checkbox" onClick="chaCloor(this)">
+				<label class="check_label on" >
+		            <i class="checkbox_icon " ></i>
+		            <em class="checkbox_text" >项目一</em>
+	            </label>
+			</span>
+			<span class="checkbox_item">
+				<input type="checkbox">
+	            <label class="check_label">
+		            <i class="checkbox_icon"></i>
+		            <span class="checkbox_text">项目二</span>
+	            </label>
+			</span>
+            <span class="checkbox_item">
+            	<input type="checkbox">
+	            <label class="check_label">
+		            <i class="checkbox_icon"></i>
+		            <span class="checkbox_text">项目三</span>
+	            </label>
+            </span>
+        </div>
+            <script>
+
+</script>
+        <script src="a_data/jquery-1.js" type="text/javascript"></script>
+        <script src="a_data/checkbox.js" type="text/javascript"></script>
+        <script type="text/javascript">
+			$(".check_label").checkbox();
+			function chaCloor(field){
+var pig = field.checked;
+pig?field.nextSibling.style.color="#ff6b66":field.nextSibling.style.color="#828282";
+}
+        </script>
+ 
+</body></html>

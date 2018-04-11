@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.test{
+			font-size:30px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="test" id="test">12223215245</div>
+	<div class="succes " id="succes"></div>
+	<script>
+
+	
+	function a(id,t,fn){ // id为元素的id，t是setTimeout中的第二个参数，fn为要回调的函数。
+
+		var po=document.getElementById(id);
+		po.style.color='red';
+			if (fn) {  //判断回调fn是否存在，存在就执行。
+			 	setTimeout (fn,1500) // 用setTimeout来设置延时加载
+				}
+
+					};
+
+		function b(){ // 要回调的函数。
+			var po=document.getElementById('test');
+			var test=document.getElementById('succes');
+			po.style.color='blue';
+			test.innerHTML="谢谢观看";
+			
+		}	
+		// 你可以继续回调下去。
+		a('test',1000,b);
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>侧边栏</title>
+	</head>
+	<style type="text/css">
+		#fixSlider{position: fixed;left: 10px;top: 0;    width: 300px;}
+		#fixSlider .box{list-style: none;width:300px;padding: 15px 0;cursor: pointer;text-align: left;color: #fff;position: relative;background:#008000;margin: 50px 0;}
+		/*.tip{display: block;width: 200px;text-align: left;position: absolute;right: 200px;color: #f00;}*/
+		
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var slider=document.getElementById("fixSlider");
+			var li=slider.getElementsByTagName('div');
+			for (var i =0; i<li.length;i++) {
+				li[i].timer=null;
+				li[i].onmouseover = function(){ 
+              	    playBox3(this,400);                
+            	} 
+	            li[i].onmouseout = function(){  
+	               playBox3(this,300);
+	            } 
+			}			 
+		}		
+		function playBox3(obj,target){
+			clearInterval(obj.timer);
+			var slider=document.getElementById("fixSlider");			
+			var li=slider.getElementsByTagName('div');
+			timer=setInterval(function(){
+//				var speed=(target-parseInt(getStyle(obj,'width')))/2;
+				if(parseInt(getStyle(obj,'width'))>target){
+					speed=-10
+				}else{
+					speed=10
+				}
+//				speed=speed>0?Math.ceil(speed):Math.floor(speed);
+//				console.log(speed);
+					if(parseInt(getStyle(obj,'width'))==target){
+						clearInterval(obj.timer);
+						
+					}else{	
+						obj.style.width=parseInt(getStyle(obj,'width'))+speed+'px';
+					}
+			},30)
+		}
+		
+		//获取行内样式
+		function getStyle(obj,Nam){
+			if(obj.currentStyle){
+				return obj.currentStyle[Nam];//IE
+			}else{
+				return getComputedStyle(obj,false)[Nam];//火狐
+			}
+		}		
+	</script>	
+	<body>
+		<div id="fixSlider">
+				<div class="box">
+					点我
+				</div>
+				<div class="box">
+					不，点我		
+				</div>
+				<div class="box">
+					先点我			
+				</div>
+
+		</div>
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<div>看什么看到底了</div>	
+	</body>
+</html>
+
+<!--var slider=document.getElementById("fixSlider");
+			var li=slider.getElementsByTagName('li');
+			var tip=slider.querySelectorAll('.tip');
+			var i=0;
+			for (var i=0;i<li.length;i++) {
+				li[i].index=i;				
+				li[i].onmouseover=function(){
+					for (var i=0;i<li.length;i++) {
+						tip[i].style.display='none';
+					}
+					tip[this.index].style.display='block';																
+					tip[this.index].style.right=50+"px";											 								
+				}
+				li[i].onmouseleave=function(){
+					for (var i=0;i<li.length;i++) {
+						tip[i].style.display='none';						
+						tip[i].style.right=200+"px";																
+					}
+				}
+			}-->

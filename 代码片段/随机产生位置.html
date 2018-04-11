@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		*{
+			margin: 0;
+			top: 0;
+		}
+		li{
+			background: chartreuse;
+			width: 10px;
+			height: 10px;
+			position: absolute;
+		}
+		ul{
+			position: absolute;
+		}
+		div{
+			width: 800px;
+			height: 400px;
+			position: absolute;
+			left: 30%;
+			top:30%;
+			border: 1px solid red;
+		}
+		</style>
+
+	</head>
+
+	<body>
+		<div>
+			<ul id="aa">
+			
+			</ul>
+		</div>
+		<input type="button" name="" id="btn" value="点击生产" />
+	</body>
+
+</html>
+<script type="text/javascript">
+	 var oBtn=document.getElementById("btn");
+	 var aUl=document.getElementById("aa");
+	 oBtn.onclick=function(){
+	 	aUl.innerHTML="";
+	 	var n=(Math.random()*10>>0)+5;
+	 		 
+	 	for(var i=0;i<n;i++){
+	 	  var aLi=document.createElement("li");	 
+	 	  aUl.appendChild(aLi);
+	 	  aLi.style.left=(Math.random()*790>>0)+"px";
+	 	   aLi.style.top=(Math.random()*390>>0)+"px";
+	 	}
+		
+	 	
+	 }
+			
+			 
+</script>

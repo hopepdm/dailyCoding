@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style type="text/css">
+            *{margin:0;padding:0;}
+            ul{ list-style: none;}
+            nav{ 
+                width:800px;
+                height:35px;
+               /*  background-color: #f90; */
+                margin:100px auto;
+                perspective: 500px;
+                transform-style: preserve-3d;
+
+            }
+            nav ul li{
+                width:100px;
+                height:35px;
+                line-height: 35px;
+                text-align: center;
+                float:left;
+                cursor:pointer;
+                position: relative;
+            }
+            .top{
+                -webkit-transform: rotateX(-90deg) translateZ(17.5px) translateY(17.5px);
+                   -moz-transform: rotateX(-90deg) translateZ(17.5px) translateY(17.5px);
+                    -ms-transform: rotateX(-90deg) translateZ(17.5px) translateY(17.5px);
+                     -o-transform: rotateX(-90deg) translateZ(17.5px) translateY(17.5px);
+                        transform: rotateX(-90deg) translateZ(17.5px) translateY(17.5px);
+            }
+            .top,.bottom{
+                width:100%;
+                height:100%;
+                background-color: #f90;
+                position:absolute;
+                transition: all 0.3s;
+                backface-visibility: hidden;
+            }
+            .bottom{
+                background-color: #f70;
+            }
+
+            /* 经过大盒子变化bottom小盒子 */
+            nav ul li:hover .bottom{
+                -webkit-transform: rotateX(90deg) translateZ(17.5px) translateY(-17.5px);
+                   -moz-transform: rotateX(90deg) translateZ(17.5px) translateY(-17.5px);
+                    -ms-transform: rotateX(90deg) translateZ(17.5px) translateY(-17.5px);
+                     -o-transform: rotateX(90deg) translateZ(17.5px) translateY(-17.5px);
+                        transform: rotateX(90deg) translateZ(17.5px) translateY(-17.5px);
+            }
+
+        nav ul li:hover .top{
+            -webkit-transform: none;
+               -moz-transform: none;
+                -ms-transform: none;
+                 -o-transform: none;
+                    transform: none;
+        }
+
+        </style>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                   <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+                <li>
+                    <div class="top">立体导航</div>
+                    <div class="bottom">传智播客</div>
+                </li>
+            </ul>
+        </nav>
+    </body>
+</html>

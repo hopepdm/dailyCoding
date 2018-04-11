@@ -1,0 +1,115 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body,html{
+	width: 100%;
+	height: 100%;
+}
+.clear{
+	clear: both;
+}
+
+
+
+.header{
+	width: 100%;
+}
+.nav{
+	width: 100%;
+	min-width: 1190px;
+	height: 35px;
+	background: #F5F5F5;
+	border-bottom: 1px solid #EEEEEE;
+}
+.nav_middle{
+	width: 1190px;
+	height: 35px;
+	line-height: 35px;
+	margin: 0 auto;
+	font-size:12px;
+}
+.nav_middle a{
+	text-decoration:none;
+	color: #6C6C6C;
+}
+.nav_middle_div1{
+	width: 603px;
+	height: 35px;
+	float: right;
+}
+.nav_middle_div1 li{
+	list-style: none;
+	width: 79px;
+	text-align: center;
+	display: inline-block;
+}
+.nav_middle_div1 a:hover{
+	color: red;
+}
+.mytaobao{
+	position: relative;
+}
+.my_taobao{
+	width: 78px;
+	height:70px;
+	border: 1px solid #EEEEEE;
+	border-top:none;
+	position: absolute;
+	top: 34px;
+	left: 0;
+	background: white;
+	display: none;
+}
+.mytaobao:hover .my_taobao{
+	display:block;
+	border-top: none;
+}
+.mytaobao:hover{
+	background: white;
+}
+.my_taobao1{
+	width: 78px;
+	height: 35px;
+	top: 0;
+	left: 0;
+	display: inline-block;
+}
+.my_taobao2{
+	top: 34px;
+	left: 0px;
+	width: 78px;
+	height: 35px;
+	display: inline-block;
+}
+.my_taobao a:hover {
+	background:#EEEEEE;
+	color: #6C6C6C;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -159,6 +159,22 @@ function initScene( obj ) {
                 
                 //设置器物颜色
                 android = object;
+
+                android.traverse(function(ele) {    
+                    console.log(ele);            
+                    if(ele instanceof THREE.Mesh) {
+                        if(ele.material.type == 'MultiMaterial'){
+                            ele.material.materials.map(function(obj, index){
+                                obj.shading = THREE.SmoothShading;
+                                obj.needUpdate = true;
+                            });
+                        } else {
+                            ele.material.shading = THREE.SmoothShading;
+                            ele.material.needUpdate = true;
+                        }
+                        
+                    }
+                });
                 
                 // var colorMaterial = 0xe3c5ac;
                 // if ( android.children.length != 0 && android.children[ 0 ].material.hasOwnProperty( 'color' ) ) {

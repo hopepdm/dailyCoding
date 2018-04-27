@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./three.js"></script>
+    <script src="./TrackballControls.js"></script>
+
+    <script type="x-shader/x-fragment" id="f-shader">
+        precision highp float;
+        void main(){
+            gl_FragColor = vec4(1.0, 0.58, 0.86, 1.0);
+        }
+    </script>
+    <script type="x-shader/x-vertex" id="v-shader">
+        void main() {
+		    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+	    }
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var scene, camera, renderer, controls;
+        var c = 0, x = 0, y = 0, positions = [],colors = [];
+        var canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        var img = new Image();
+        img.crossOrigin = 'Anonymouse'
+        img.src = './1.jpg';
+        img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            createScene();
+            ctx.drawImage(img, 0, 0)
+            var imgData = ctx.getImageData(0, 0, img.width, img.height);
+            mm = createParticles(imgData);
+            scene.add(mm);
+            mm.rotation.x = Math.PI;
+
+
+
+
+        }
+        function createScene() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 2000;
+            camera.position.y = 2;
+            camera.lookAt(scene.position);
+            controls = new THREE.TrackballControls(camera);
+
+
+            renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0xffffff, 1);
+
+            document.body.appendChild(renderer.domElement);
+            helper = new THREE.AxesHelper(100);
+           // scene.add(helper);
+            animate();
+        }
+
+        function createParticles(imgData) {
+            const geometry = new THREE.BufferGeometry();
+            
+            data = imgData.data;
+            x = -imgData.width * 0.5;
+            y = imgData.height * 0.5;
+            for (var j = 0; j < imgData.height; j++) {
+                for (var i = 0; i < imgData.width; i++) {
+                    gray = 0.3*data[c] +0.59*data[c + 1] + 0.11*data[c + 2];
+                    positions.push(i - imgData.width/2.0, j- imgData.height/2.0, gray);
+                    var color = new THREE.Color();
+                    color.setRGB(data[c] / 255, data[c + 1] / 255, data[c + 2] / 255);
+                    colors.push(color.r, color.g, color.b);
+
+                    // geometry.vertices.push(new THREE.Vector3(i-imgData.width*0.5,j-imgData.height*0.5,0));
+                    c += 4;
+                }                                 
+
+
+
+            }
+            geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+            mater = new THREE.PointsMaterial({vertexColors: THREE.VertexColors});
+           
+            return new THREE.Points(geometry,mater);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate)
+            controls.update();
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+
+</html>

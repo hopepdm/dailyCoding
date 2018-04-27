@@ -1,0 +1,257 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+body {
+  font-family: "Microsoft Yahei", "å¾®è½¯é›…é»‘";
+  /* background: url('../images/bg.png') no-repeat center; */
+  background: radial-gradient(circle, #f8f8f8, #554236 100%);
+  background-size: 100% 100%;
+  /* color: rgb(0, 0, 0); */
+  font-size: 12px;
+  margin: 0px;
+  overflow: hidden;
+}
+
+ul {
+  list-style: none;
+}
+
+
+/*加载*/
+
+.loading {
+  z-index: 9999;
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  /* background-color: #ffc87a; */
+  /* top: 50%; */
+  /* left: 50%; */
+  /* margin-left: -171px; */
+  /* margin-top: -150px; */
+  text-align: center;
+}
+
+.loading .logo {
+  /* display: inline-block; */
+  display: none;
+  position: relative;
+  top: 36%;
+  text-align: center;
+}
+
+img {
+  position: relative;
+  /* left: -136px; */
+}
+
+.loadbox {
+  position: absolute;
+  top: 50%;
+  width: 200px;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: 25px;
+}
+
+.loadbox i.num {
+  width: 47px;
+  height: 35px;
+  text-align: center;
+  color: #fff;
+  line-height: 28px;
+  background: url(../images/numbg.png) no-repeat;
+  display: block;
+  position: absolute;
+  bottom: 13px;
+  left: -21px;
+  font-style: normal;
+  font-size: 13px;
+}
+
+.loadbox .loadbar {
+  /* background: url(../images/loadbg.png) no-repeat; */
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 1px #000;
+  border-radius: 5px;
+  height: 15px;
+  /* width: 341px; */
+  width: 200px;
+  overflow: hidden;
+  position: relative;
+  /* position: absolute; */
+}
+
+.loadbox .loadbar span {
+  /* background: url(../images/loadbg_active.png) no-repeat; */
+  background: linear-gradient(to right, #30fafc, #ffc87a);
+  border-radius: 5px;
+  position: absolute;
+  /* width: 341px; */
+  width: 200px;
+  height: 12px;
+  left: 0;
+  top: 1.6px;
+}
+
+
+/*加载失败*/
+
+.failure {
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  margin-top: -200px;
+  width: 90%;
+  padding: 0 5%;
+}
+
+.failure i {
+  width: 66px;
+  height: 57px;
+  display: inline-block;
+  background: url(../images/failure.png) no-repeat;
+  margin: 15px;
+}
+
+.failure p {
+  font-size: 17px;
+  color: #959594;
+  line-height: 30px;
+  margin-bottom: 20px;
+}
+
+.failure p a {
+  color: #ea0000;
+}
+
+.failure p a:hover {
+  text-decoration: underline;
+}
+
+.u3dlink {
+  display: none;
+  position: fixed;
+  top: 5%;
+  right: 10px;
+}
+
+
+/* .u3dlink a {
+  width: 112px;
+  height: 37px;
+  display: block;
+  background: url(../images/btn_bg.png) center top no-repeat;
+}
+
+.u3dlink a:hover {
+  background: url(../images/btn_bg_hover.png) center top no-repeat;
+} */
+
+.autoplay {
+  display: none;
+  cursor: pointer;
+  position: fixed;
+  left: 50%;
+  margin-left: -20px;
+  bottom: 20px;
+  width: 32px;
+  height: 32px;
+  /* background-origin: content-box; */
+  padding: 8px;
+  background-size: contain;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  /* background-color: #fff; */
+  z-index: 888;
+}
+
+.autoplay.play {
+  background-image: url('../images/stop.png');
+}
+
+.autoplay.stop {
+  /* background-position-x: 2px; */
+  /*实际是居中的，只是看起来没有居中*/
+  background-image: url('../images/play.png');
+}
+
+.tool {
+  display: none;
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  text-align: center;
+}
+
+.tool .switch {
+  /* display: block; */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  /* margin-bottom: 20px; */
+  border-radius: 50%;
+  /* background-color: #fff; */
+  background-image: url('../images/switch.png');
+  background-size: cover;
+  /* background-origin: content-box; */
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.tool .switch:hover {
+  box-shadow: 0px 0px 3px 1px #fff;
+}
+
+.tool .switch.close {
+  transform: rotateZ(180deg);
+}
+
+.tool .switch.open {
+  transform: rotateZ(0);
+}
+
+.tool .switch {
+  transition: transform 0.4s;
+}
+
+.tool ul {
+  display: none;
+  position: absolute;
+  left: 4px;
+  /* bottom: 10px; */
+  /* height: 200px; */
+}
+
+.tool li {
+  color: rgb(214, 214, 214);
+  position: absolute;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  background-color: rgb(89, 89, 89);
+  /* margin-top: 5px; */
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  vertical-align: middle;
+  /* border: 1px solid #fff; */
+}
+
+.tool li:hover {
+  box-shadow: 0 0 2px 1px #fff;
+  color: #ef9209;
+}

@@ -49,6 +49,8 @@
     <div id="ThreeJS"></div>
     <script type="text/javascript" src="./public/js/three.js"></script>
     <script type="text/javascript" src="./public/js/main.js"></script>
+    <script type="text/javascript" src="./public/js/loaders/inflate.min.js"></script>
+    <script type="text/javascript" src="./public/js/loaders/FBXLoader.js"></script>
     <script type="text/javascript" src="./public/js/loaders/BinaryLoader.js"></script>
     <script type="text/javascript" src="./public/js/loaders/MTLLoader.js"></script>
     <script type="text/javascript" src="./public/js/loaders/OBJLoader.js"></script>
@@ -59,8 +61,8 @@
       var result = WebGLDetector.detecte();
       if ( result.webgl ) {
           var parObj = {
-              objurl: "C137/C137.obj",
-              fileName: "C137",
+              objurl: "jigui_close_open/jigui_close_open.fbx",
+              fileName: "jigui_close_open",
               near: 0.001,
               far: 10000,
               minfov: 0.4,

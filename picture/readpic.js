@@ -40,7 +40,7 @@ fs.open( 'test2.jpg', 'r+', function ( err, fd ) {
         // 仅输出读取的字节
         if ( bytes > 0 ) {
             console.log( buf.slice( 0, bytes ) );
-            fs.writeFileSync( 'test22.jpg', buf.slice( 0, bytes - 20 ), function ( err ) {
+            fs.writeFileSync( 'test22-1.jpg', buf.slice( 0, bytes ), function ( err ) {
                 if ( err ) {
                     return console.log( err );
                 }

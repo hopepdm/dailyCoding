@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Three转场动画</title>
+    <script src="js/three.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <style type="text/css">
+        body,
+        html {
+            height: 100%;
+        }
+
+        div#canvas-frame {
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            background-color: #EEEEEE;
+        }
+
+        button#next {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 60px;
+            border-style: none;
+            font-size: 16px;
+            color: white;
+            background-color: #666;
+        }
+    </style>
+    <script>
+        var renderer;
+        var camera;
+        var scene;
+        var light;
+        var mesh = [];
+        var rotateMesh = []; //存储随机旋转的角度
+        var mesh_num = 1;
+        var index = 0;
+        var rotateRate = 0;
+        var rate; //第三步旋转的速率
+        var next;
+
+
+        function initThree() {
+            width = document.getElementById( 'canvas-frame' ).clientWidth;
+            height = document.getElementById( 'canvas-frame' ).clientHeight;
+
+            renderer = new THREE.WebGLRenderer( {
+                antialias: true
+            } );
+            renderer.setSize( width, height );
+            document.getElementById( 'canvas-frame' ).appendChild( renderer.domElement );
+            renderer.setClearColor( 'rgb(255,255,247)', 1.0 );
+
+            next = document.getElementById( "next" );
+        }
+
+        function initCamera() {
+            camera = new THREE.PerspectiveCamera( 45, width / height, 1, 10000 );
+            camera.position.x = 0;
+            camera.position.y = 0;
+            camera.position.z = 500;
+            camera.up.x = 0;
+            camera.up.y = 1;
+            camera.up.z = 0;
+            camera.lookAt( {
+                x: 0,
+                y: 0,
+                z: 0
+            } );
+        }
+
+        function initScene() {
+            scene = new THREE.Scene();
+        }
+
+        function initLight() {
+            light = new THREE.AmbientLight( 0xFFFFFF );
+            light.position.set( 100, 100, 200 );
+            scene.add( light );
+            light = new THREE.PointLight( 0x00FF00 );
+            light.position.set( 0, 0, 300 );
+            scene.add( light );
+        }
+
+
+        function initObject() {
+            var rand = [];
+            for ( var i = 0; i < mesh_num; i++ ) {
+                rand[ i ] = i;
+            }
+            rand.sort( function () {
+                return 0.5 - Math.random()
+            } );
+            var c = 0,
+                x = 0,
+                y = 0,
+                positions = [],
+                colors = [];
+            var canvas = document.createElement( 'canvas' );
+            var ctx = canvas.getContext( '2d' );
+
+            for ( var i = 0; i < mesh_num; i++ ) {
+                var random = Math.random();
+                rotateMesh[ i ] = random * 2;
+                if ( i % 2 ) {
+                    rotateMesh[ i ] = -random * 3.14;
+                }
+
+                var img = new Image();
+                img.crossOrigin = 'Anoymouse';
+                img.src = './img/' + i + '.jpg';
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage( img, 0, 0 );
+                    var imgData = ctx.getImageData( 0, 0, img.width, img.height );
+
+                    var geometry = new THREE.BufferGeometry();
+
+                    var data = imgData.data;
+                    x = -imgData.width * 0.5;
+                    y = imgData.height * 0.5;
+                    for ( var jj = 0; jj < imgData.height; jj++ ) {
+                        for ( var ii = 0; ii < imgData.width; ii++ ) {
+                            gray = 0.3 * data[ c ] + 0.59 * data[ c + 1 ] + 0.11 * data[ c + 2 ];
+                            positions.push( ii - imgData.width / 2.0, jj - imgData.height / 2.0, gray );
+                            var color = new THREE.Color();
+                            color.setRGB( data[ c ] / 255, data[ c + 1 ] / 255, data[ c + 2 ] / 255 );
+                            colors.push( color.r, color.g, color.b );
+
+                            c += 4;
+                        }
+                    }
+                    geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
+                    mater = new THREE.PointsMaterial( {
+                        vertexColors: THREE.VertexColors
+                    } );
+
+                    var demo = new THREE.Points( geometry, mater )
+                    var radius = random * 30 + 20
+                    demo.scale.set( radius / img.width, radius / img.width, radius / img.width );
+
+                    demo.position.x = ( Math.random() - 0.5 ) * 400;
+                    demo.position.y = ( Math.random() - 0.4 ) * 200;
+                    demo.position.z = ( Math.random() - 0.5 ) * 300;
+
+                    var rotateY;
+                    //第一象限
+                    if (demo.position.x > 0 && demo.position.z > 0 ) {
+                        var tan = demo.position.x / demo.position.z;
+                        rotateY = Math.atan( tan ) + 3.14;
+                        //第二象限
+                    } else if ( demo.position.x < 0 && demo.position.z > 0 ) {
+                        var tan = demo.position.z / demo.position.x;
+                        rotateY = 1.57 - Math.atan( tan );
+                        //三、四象限
+                    } else {
+                        var tan = demo.position.x / demo.position.z;
+                        rotateY = Math.atan( tan );
+                    }
+
+                    TweenMax.to(
+                        demo.rotation,
+                        1.5, {
+                            y: rotateY + rotateMesh[ i ],
+                            delay: 0
+                        }
+                    );
+
+                    scene.add( demo );
+
+                    mesh.push( demo );
+
+
+                    positions = [];
+                    colors = [];
+                    c = 0;
+                }
+
+            }
+
+        }
+
+        function threeStart() {
+            initThree();
+            initCamera();
+            initScene();
+            initLight();
+            initObject();
+            animation();
+            next.addEventListener( "click", function () {
+                next.style.visibility = "hidden";
+                rotateRate = 0;
+                rate = 0.03;
+
+                if ( index > mesh_num ) {
+                    index = 0
+                }
+                var rotate = mesh[ index ].rotation.y;
+                //计算camera到物体相隔3倍边长的点
+                //获取边长
+                var a = mesh[ index ].geometry.parameters.height;
+                //物体的位置
+                var x1 = mesh[ index ].position.x;
+                var y1 = mesh[ index ].position.y;
+                var z1 = mesh[ index ].position.z;
+                //物体到y轴的距离
+                var b = Math.sqrt( x1 * x1 + z1 * z1 );
+                //camera的位置
+                var x2 = x1 * ( 1 - 4 * a / b );
+                var z2 = z1 * ( 1 - 4 * a / b );
+
+                var random1 = ( Math.random() - 0.5 ) * 100;
+                var random2 = ( Math.random() - 0.5 ) * 100;
+
+                if ( index == 0 ) {
+                    TweenMax.to(
+                        camera.position,
+                        1.5, {
+                            x: x2,
+                            y: mesh[ index ].position.y,
+                            z: z2,
+                            delay: 0,
+                            ease: Cubic.easeIn
+                        }
+                    );
+                    TweenMax.to(
+                        camera.rotation,
+                        0.5, {
+                            y: rotate - rotateMesh[ index ],
+                            delay: 1.5
+                        }
+                    );
+                } else {
+                    TweenMax.to(
+                        camera.position,
+                        2, {
+                            x: x2,
+                            y: mesh[ index ].position.y,
+                            z: z2,
+                            delay: 0,
+                            ease: Cubic.easeIn
+                        }
+                    );
+
+
+                    TweenMax.to(
+                        camera.rotation,
+                        2, {
+                            y: rotate - rotateMesh[ index ],
+                            delay: 0
+                        }
+                    );
+                }
+                index++;
+                animation();
+                setTimeout( "cameraRoAni()", 2000 );
+            } );
+        }
+
+        function render() {
+
+            renderer.render( scene, camera );
+
+        }
+
+        function animation() {
+            TweenLite.ticker.addEventListener( "tick", render );
+        }
+
+        function cameraRoAni() {
+            var ani;
+            if ( rotateMesh[ index - 1 ] > 0 ) {
+                rotateRate = rotateRate + rate;
+                if ( rotateRate <= rotateMesh[ index - 1 ] ) {
+                    var newX = ( camera.position.x - mesh[ index - 1 ].position.x ) * Math.cos( -rate ) - ( camera.position
+                        .z - mesh[ index - 1 ].position.z ) * Math.sin( -rate ) + mesh[ index - 1 ].position.x;
+                    var newZ = ( camera.position.x - mesh[ index - 1 ].position.x ) * Math.sin( -rate ) + ( camera.position
+                        .z - mesh[ index - 1 ].position.z ) * Math.cos( -rate ) + mesh[ index - 1 ].position.z;
+                    camera.position.x = newX;
+                    camera.position.z = newZ;
+                    camera.rotation.y += rate;
+                    ani = requestAnimationFrame( cameraRoAni );
+                } else {
+                    cancelAnimationFrame( ani );
+                    next.style.visibility = "visible";
+                }
+            } else {
+                rotateRate = rotateRate - rate;
+                if ( rotateRate >= rotateMesh[ index - 1 ] ) {
+                    var newX = ( camera.position.x - mesh[ index - 1 ].position.x ) * Math.cos( rate ) - ( camera.position
+                        .z - mesh[ index - 1 ].position.z ) * Math.sin( rate ) + mesh[ index - 1 ].position.x;
+                    var newZ = ( camera.position.x - mesh[ index - 1 ].position.x ) * Math.sin( rate ) + ( camera.position
+                        .z - mesh[ index - 1 ].position.z ) * Math.cos( rate ) + mesh[ index - 1 ].position.z;
+                    camera.position.x = newX;
+                    camera.position.z = newZ;
+                    camera.rotation.y -= rate;
+
+                    requestAnimationFrame( cameraRoAni );
+                } else {
+                    cancelAnimationFrame( ani );
+                    next.style.visibility = "visible";
+                }
+            }
+            if ( rate > 0.01 ) {
+                rate = rate - 0.0001;
+            }
+        }
+    </script>
+</head>
+
+<body onload="threeStart();">
+    <div id="canvas-frame"></div>
+    <button id="next">next</button>
+</body>
+
+</html>

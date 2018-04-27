@@ -74,10 +74,12 @@ function initScene( obj ) {
     // checkType( obj ); //通过检测文件名判断相机位置，里/外
     sigleObj = obj;
     var modelpath = file.modelpath;
-      camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, sigleObj.near, sigleObj.far );
+    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, sigleObj.near, sigleObj.far );
     // camera = new THREE.OrthographicCamera( window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 10, 1000);
-    camera.position.z = 2;
+   
     scene = new THREE.Scene();
+
+    scene.add(camera);
 
     var manager = new THREE.LoadingManager();
     // manager.onLoad = function() {
@@ -112,106 +114,84 @@ function initScene( obj ) {
 
     //添加光照
     addLight();
+    universalLoader( sigleObj.objurl, sigleObj.fileName, function ( object ) {
+        if ( sigleObj.modelRotation ) {
+            object.rotation.x = sigleObj.modelRotation.x;
+            object.rotation.y = sigleObj.modelRotation.y;
+            object.rotation.z = sigleObj.modelRotation.z;
+        }
+        if ( sigleObj.modelPosition ) {
+            object.position.x = sigleObj.modelPosition.x;
+            object.position.y = sigleObj.modelPosition.y;
+            object.position.z = sigleObj.modelPosition.z;
+        }
+        if ( sigleObj.fileName == 'caiguan' || sigleObj.fileName == 'cizhen' || sigleObj.fileName == 'falangbei' ) {
+            object.children[ 0 ].material.materials.forEach( function ( ele ) {
+                ele.specular.setHex( 0x101010 );
+                ele.shininess = 60;
+            } );
+        }
+        // object.castShadow = true;
+        // object.receiveShadow = true;
+        // for ( var k in object.children ) {
+        //     object.children[ k ].castShadow = true;
+        //     object.children[ k ].receiveShadow = true;
+        // }
+        // object.position.set( 0, 0, 0 );
+        scene.add( object );
 
-    //加载模型
-    if ( file.ext === 'js' ) {
-        var binaryLoader = new THREE.BinaryLoader( manager );
-        binaryLoader.setCrossOrigin( '' );
-        binaryLoader.load( modelpath, addModelToScene );
-    } else if ( file.ext === "obj" ) {
+        //设置器物颜色
+        android = object;
 
-        var basePath = file.basePath;
-        var modelName = file.modelName;
-
-        var mtlLoader = new THREE.MTLLoader( manager );
-        mtlLoader.setCrossOrigin( '' );
-        mtlLoader.setPath( basePath );
-        mtlLoader.load( modelName + '.mtl', function ( materials ) {
-            materials.preload();
-            var objLoader = new THREE.OBJLoader( manager );
-            objLoader.setMaterials( materials );
-            objLoader.setPath( basePath );
-            objLoader.load( modelName + '.obj', function ( object ) {
-                if ( sigleObj.modelRotation ) {
-                    object.rotation.x = sigleObj.modelRotation.x;
-                    object.rotation.y = sigleObj.modelRotation.y;
-                    object.rotation.z = sigleObj.modelRotation.z;
-                }
-                if ( sigleObj.modelPosition ) {
-                    object.position.x = sigleObj.modelPosition.x;
-                    object.position.y = sigleObj.modelPosition.y;
-                    object.position.z = sigleObj.modelPosition.z;
-                }
-                if ( sigleObj.fileName == 'caiguan' || sigleObj.fileName == 'cizhen' || sigleObj.fileName == 'falangbei' ) {
-                    object.children[ 0 ].material.materials.forEach( function ( ele ) {
-                        ele.specular.setHex( 0x101010 );
-                        ele.shininess = 60;
+        android.traverse( function ( ele ) {
+            
+            if ( ele instanceof THREE.Mesh ) {
+                if ( ele.material.type == 'MultiMaterial' ) {
+                    ele.material.materials.map( function ( obj, index ) {
+                        obj.flatShading = 0;
+                        obj.needUpdate = true;
+                        obj.specular.setHex(0xb0b0b0);
+                        obj.shininess = 30;
                     } );
-                }
-                object.castShadow = true;
-                object.receiveShadow = true;
-                for( var k in object.children ) {
-                    object.children[k].castShadow = true;
-                    object.children[k].receiveShadow = true;
-                }
-                // object.position.set( 0, 0, 0 );
-                scene.add( object );
-                
-                //设置器物颜色
-                android = object;
-
-                android.traverse(function(ele) {    
-                    console.log(ele);            
-                    if(ele instanceof THREE.Mesh) {
-                        if(ele.material.type == 'MultiMaterial'){
-                            ele.material.materials.map(function(obj, index){
-                                obj.shading = THREE.SmoothShading;
-                                obj.needUpdate = true;
-                            });
-                        } else {
-                            ele.material.shading = THREE.SmoothShading;
-                            ele.material.needUpdate = true;
-                        }
-                        
-                    }
-                });
-                
-                // var colorMaterial = 0xe3c5ac;
-                // if ( android.children.length != 0 && android.children[ 0 ].material.hasOwnProperty( 'color' ) ) {
-                //   android.children.forEach( function ( ele ) {
-                //     ele.material.color.setHex( colorMaterial );
-                //   } );
-                // }
-
-                adjustSceneParam();
-                dragRotateControls = new THREE.OrbitControls( camera, renderer.domElement );
-                if ( isOuter ) {
-                    dragRotateControls.enableZoom = true;
-                    dragRotateControls.enablePan = true;
-                    dragRotateControls.minDistance = hw / 1.5;
-                    dragRotateControls.maxDistance = 3 * hw;
                 } else {
-                    dragRotateControls.enableZoom = false; //禁止缩放
-                    dragRotateControls.enablePan = false;
-                    dragRotateControls.minPolarAngle = Math.PI / 4; // 俯视角
-                    dragRotateControls.maxPolarAngle = Math.PI; // 仰视角
-
+                    ele.material.flatShading = 0;
+                    ele.material.needUpdate = true;
+                    ele.material.specular.setHex(0xb0b0b0);
+                    ele.material.shininess = 30;
                 }
 
-                if ( utilityStats.openMenu && autoRotate == true ) {
-                    dragRotateControls.autoRatate = true; //禁止自动旋转
-                } else {
-                    dragRotateControls.autoRatate = false; //禁止自动旋转
-                }
-
-                // dragRotateControls.minDistance = 2;
-                // dragRotateControls.maxDistance = 1;
-                // dragRotateControls.minZoom = -2;
-                // dragRotateControls.maxZoom = 2;
-            }, onProgress );
+            }
         } );
-    }
 
+        // var colorMaterial = 0xe3c5ac;
+        // if ( android.children.length != 0 && android.children[ 0 ].material.hasOwnProperty( 'color' ) ) {
+        //   android.children.forEach( function ( ele ) {
+        //     ele.material.color.setHex( colorMaterial );
+        //   } );
+        // }
+
+        adjustSceneParam();
+        dragRotateControls = new THREE.OrbitControls( camera, renderer.domElement );
+        if ( isOuter ) {
+            dragRotateControls.enableZoom = true;
+            dragRotateControls.enablePan = true;
+            dragRotateControls.minDistance = hw / 1.5;
+            dragRotateControls.maxDistance = 3 * hw;
+        } else {
+            dragRotateControls.enableZoom = false; //禁止缩放
+            dragRotateControls.enablePan = false;
+            dragRotateControls.minPolarAngle = Math.PI / 4; // 俯视角
+            dragRotateControls.maxPolarAngle = Math.PI; // 仰视角
+
+        }
+
+        if ( utilityStats.openMenu && autoRotate == true ) {
+            dragRotateControls.autoRatate = true; //禁止自动旋转
+        } else {
+            dragRotateControls.autoRatate = false; //禁止自动旋转
+        }
+    }, onProgress );
+    
     // renderer
     renderer = new THREE.WebGLRenderer( {
         antialias: true,
@@ -231,25 +211,58 @@ function initScene( obj ) {
     animate();
 }
 
-/**
- * 将mesh对象加入场景中
- * 
- * @param {any} geometry 
- * @param {any} materials 
- */
-function addModelToScene( geometry, materials ) {
-    var material = new THREE.MultiMaterial( materials );
-    android = new THREE.Mesh( geometry, material );
-    if ( sigleObj.modelRotation ) {
-        android.rotation = sigleObj.modelRotation;
-    }
-    if ( sigleObj.modelPosition ) {
-        android.position = sigleObj.modelPosition;
-    }
-    scene.add( android );
 
-    adjustSceneParam();
-    dragRotateControls = new THREE.DragRotateControls( camera, android );
+/**
+ * 常用模型加载器封装
+ * @argument urls string 模型路径
+ * @argument onLoad function 模型处理函数
+ */
+function universalLoader( urls, fileName, onLoad, onProgress, onError ) {
+    if ( typeof ( urls ) === 'string' ) {
+        var url = urls;
+        var path = urls.split( '/' );
+        path.pop();
+        path = path.join( '/' );
+        console.log( path );
+
+        //load per type
+        if ( ( urls.split('.')[1] ).match( /\obj$/i ) ) {
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setPath( path + '/' );
+            mtlLoader.load( fileName + '.mtl', function ( materials ) {
+                materials.preload();
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials( materials );
+                objLoader.setPath( path + '/' );
+                objLoader.load( fileName + '.obj', function ( object ) {
+                    onLoad( object );
+                }, onProgress, onError );
+            } );
+        } else if ( ( urls.split('.')[1] ).match( /\js$/i ) ) {
+            var JSONloader = new THREE.JSONLoader();
+            JSONloader.load( url, function ( geometry, materials ) {
+                var material;
+                if ( materials.length > 1 ) {
+                    material = new THREE.MeshFaceMaterial( materials );
+                } else {
+                    material = materials[ 0 ];
+                }
+                var mesh = new THREE.Mesh( geometry, material );
+                onLoad( mesh );
+            }, onProgress, onError );
+        } else if ( ( urls.split('.')[1] ).match( /\FBX$/i ) || ( urls.split('.')[1] ).match( /\fbx$/i )) {
+            console.log('load FBXfile');
+            var FBXLoader = new THREE.FBXLoader();
+            FBXLoader.load(urls, function( object ) {
+                onLoad( object );
+            });
+        }
+
+    } else {
+        console.log( '路径错误' );
+    }
+
 }
 
 /**
@@ -268,8 +281,8 @@ function onWindowResize() {
  */
 function adjustSceneParam() {
 
-    var box3 = new THREE.Box3().setFromObject( android );
-    var size = box3.getSize();
+    var size = new THREE.Box3().setFromObject( android ).getSize( new THREE.Vector3() );
+    
     var width = size.x;
 
     hw = Math.max( size.x, size.y, size.z );
@@ -293,14 +306,14 @@ function addLight() {
         intensity = 0.9;
     }
     var colorlight = 0xffffff;
-    var dirLight1 = new THREE.DirectionalLight( colorlight, intensity*9 );
+    var dirLight1 = new THREE.DirectionalLight( colorlight, intensity );
     dirLight1.position.set( 2, 2, 2 ); //上1
     dirLight1.castShadow = true;
     // dirLight1.shadow.camera.near = 0.001;
     // dirLight1.shadow.camera.far = 100000;
     // dirLight1.shadow.camera.visible = true;            
-   
-    scene.add( dirLight1 );
+
+    camera.add( dirLight1 );
 
     // var dirLight2 = new THREE.DirectionalLight( colorlight, intensity );
     // dirLight2.position.set( 0, -2, 0 ); //下
@@ -322,10 +335,9 @@ function addLight() {
     // dirLight6.position.set( 0, 0, -2 );
     // scene.add( dirLight6 );
 
-    // if ( sigleObj.ambient ) {
-    //     var ambient = new THREE.AmbientLight( colorlight, ambientIntensity );
-    //     scene.add( ambient );
-    // }
+    if ( sigleObj.ambient ) {
+        camera.add( new THREE.AmbientLight( colorlight, ambientIntensity ) );
+    }
 }
 
 function animate() {
